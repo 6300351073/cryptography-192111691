@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+// Function to calculate the power of a number modulo n
+long long powerMod(long long base, unsigned long long exponent, long long modulus) {
+    long long result = 1;
+    base %= modulus;
+    while (exponent > 0) {
+        if (exponent % 2 == 1) {
+            result = (result * base) % modulus;
+        }
+        base = (base * base) % modulus;
+        exponent /= 2;
+    }
+    return result;
+}
+
+// Function to perform RSA encryption
+long long rsaEncrypt(long long message, long long e, long long n) {
+    return powerMod(message, e, n);
+}
+
+int main() {
+    long long p = 61;  // First prime number
+    long long q = 53;  // Second prime number
+    long long n = p * q;  // Modulus
+    long long e = 17;  // Public exponent
+    long long message;
+
+    printf("Enter the message to be encrypted (as a number): ");
+    scanf("%lld", &message);
+
+    // Ensure the message is within the allowable range
+    if (message >= n) {
+        printf("Message is too large for RSA encryption.\n");
+        return 1;
+    }
+
+    long long encryptedMessage = rsaEncrypt(message, e, n);
+    printf("Encrypted message: %lld\n", encryptedMessage);
+
+    return 0;
+}
