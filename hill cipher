@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MATRIX_SIZE 2
+
+// Function to encrypt a 2x2 matrix
+void encrypt(int key[MATRIX_SIZE][MATRIX_SIZE], int plaintext[MATRIX_SIZE], int ciphertext[MATRIX_SIZE]) {
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        ciphertext[i] = 0;
+        for (int j = 0; j < MATRIX_SIZE; j++) {
+            ciphertext[i] += key[i][j] * plaintext[j];
+        }
+        ciphertext[i] %= 26;  // Assuming we are working with the English alphabet
+    }
+}
+
+int main() {
+    int key[MATRIX_SIZE][MATRIX_SIZE] = {
+        {6, 24},
+        {13, 16}
+    };
+
+    char plaintext[MATRIX_SIZE];
+    printf("Enter a 2-letter plaintext: ");
+    scanf("%s", plaintext);
+
+    // Convert plaintext to numerical representation (A=0, B=1, ..., Z=25)
+    int numerical_plaintext[MATRIX_SIZE];
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        numerical_plaintext[i] = plaintext[i] - 'A';
+    }
+
+    int ciphertext[MATRIX_SIZE];
+    encrypt(key, numerical_plaintext, ciphertext);
+
+    printf("Ciphertext: ");
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        printf("%c", ciphertext[i] + 'A');
+    }
+    printf("\n");
+
+    return 0;
+}
